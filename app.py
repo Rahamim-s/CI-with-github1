@@ -15,8 +15,6 @@ from flask import render_template
 from flask import url_for
 from flask.json import jsonify
 
-
-
 ##########################################################################
 ## Application Setup
 ##########################################################################
