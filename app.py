@@ -1,6 +1,31 @@
-from flask import Flask, request, render_template, jsonify
+
+"""
+simple python flask application
+""" 
+
+##########################################################################
+## Imports
+##########################################################################
+  
+import os
+ 
+from flask import Flask
+from flask import request
+from flask import render_template
+from flask import url_for
+from flask.json import jsonify
+
+
+
+##########################################################################
+## Application Setup
+##########################################################################
 
 app = Flask(__name__)
+
+##########################################################################
+## Routes
+##########################################################################
 
 @app.route("/")
 def home():
@@ -8,14 +33,23 @@ def home():
 
 @app.route("/api/hello")
 def hello():
+    """
+    Return a hello message
+    """
     return jsonify({"hello": "world"})
 
 @app.route("/api/hello/<name>")
 def hello_name(name):
+    """
+    Return a hello message with name
+    """
     return jsonify({"hello": name})
 
 @app.route("/api/whoami")
 def whoami():
+    """
+    Return a JSON object with the name, ip, and user agent
+    """
     return jsonify(
         name=request.remote_addr,
         ip=request.remote_addr,
@@ -24,34 +58,18 @@ def whoami():
 
 @app.route("/api/whoami/<name>")
 def whoami_name(name):
+    """
+    Return a JSON object with the name, ip, and user agent
+    """
     return jsonify(
         name=name,
         ip=request.remote_addr,
         useragent=request.user_agent.string
     )
 
-# Ajoutez les routes pour les webhooks
-@app.route("/testing", methods=['POST'])
-def testing():
-    payload = request.json
-    ref = payload.get('ref', '')
-
-    if ref == 'refs/heads/staging':
-        # Ajoutez votre logique de test ici
-        return 'Testing endpoint received payload.'
-
-    return 'Invalid reference for testing.'
-
-@app.route("/deployment", methods=['POST'])
-def deployment():
-    payload = request.json
-    ref = payload.get('ref', '')
-
-    if ref == 'refs/heads/main':
-        # Ajoutez votre logique de déploiement ici
-        return 'Deployment endpoint received payload.'
-
-    return 'Invalid reference for deployment.'
+##########################################################################
+## Main
+##########################################################################
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
