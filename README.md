@@ -10,5 +10,4 @@ test
 test the app:
 mes co
 python -m unittest 
-bo
-omm
+
